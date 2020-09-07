@@ -8,7 +8,6 @@ import com.totvs.guild.java.construcaoobjetos.cliente.dominio.Cliente;
 import com.totvs.guild.java.construcaoobjetos.cliente.dominio.ClienteRepository;
 import com.totvs.guild.java.construcaoobjetos.pedido.dominio.Pedido;
 import com.totvs.guild.java.construcaoobjetos.pedido.dominio.PedidoRepository;
-import com.totvs.guild.java.construcaoobjetos.pedido.dominio.SituacaoPedido;
 
 @Service
 @Transactional
@@ -26,9 +25,7 @@ public class ClienteService {
 
 		Cliente cliente = clienteRepository.findById(cmd.getClienteId()).orElseThrow();
 
-		Pedido pedido = cliente.isAtivo() 
-				? new Pedido(cliente.getId(), SituacaoPedido.APROVADO)
-		        : new Pedido(cliente.getId(), SituacaoPedido.AGUARDANDO_APROVACAO);
+		Pedido pedido = cliente.criarPedido();
 
 		pedidoRepository.save(pedido);
 

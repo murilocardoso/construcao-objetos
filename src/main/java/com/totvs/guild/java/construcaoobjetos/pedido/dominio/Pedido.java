@@ -28,6 +28,14 @@ public class Pedido {
 		this.situacao = situacao;
 	}
 
+	public static Pedido aprovado(String clienteId) {
+		return new Pedido(clienteId, SituacaoPedido.APROVADO);
+	}
+
+	public static Pedido aguardandoAprovacao(String clienteId) {
+		return new Pedido(clienteId, SituacaoPedido.AGUARDANDO_APROVACAO);
+	}
+
 	public String getId() {
 		return id;
 	}

@@ -2,8 +2,6 @@ package com.totvs.guild.java.construcaoobjetos.cliente.app;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.UUID;
-
 import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.DisplayName;
@@ -31,11 +29,11 @@ class ClienteServiceIT {
 	private ClienteService criarPedidoService;
 
 	@Test
-	@DisplayName("Quando cliente ativo, pedido de ser criado como aprovado")
-	void quandoClienteAtivoPedidoDeveSerCriadoAprovado() {
+	@DisplayName("Deve criar pedido para o cliente")
+	void deveCriarPedidoParaOCliente() {
 
 		// given
-		Cliente cliente = new Cliente(UUID.randomUUID(), "MURILO", SituacaoCliente.ATIVO);
+		Cliente cliente = new Cliente("MURILO", SituacaoCliente.ATIVO);
 		clienteRepository.save(cliente);
 
 		CriarPedido criarPedido = new CriarPedido(cliente.getId());
@@ -47,26 +45,5 @@ class ClienteServiceIT {
 		Pedido novoPedido = pedidoRepository.findById(pedidoId).orElseThrow();
 
 		assertThat(novoPedido.getId()).isEqualTo(pedidoId);
-		assertThat(novoPedido.isAprovado()).isTrue();
-	}
-
-	@Test
-	@DisplayName("Quando cliente inativo, pedido deve ser criado aguardando aprovação")
-	void quandoClienteInativoPedidoDeveSerCriadoAguardandoAprovacao() {
-
-		// given
-		Cliente cliente = new Cliente(UUID.randomUUID(), "MURILO", SituacaoCliente.INATIVO);
-		clienteRepository.save(cliente);
-
-		CriarPedido criarPedido = new CriarPedido(cliente.getId());
-
-		// when
-		String pedidoId = criarPedidoService.handle(criarPedido);
-
-		// then
-		Pedido novoPedido = pedidoRepository.findById(pedidoId).orElseThrow();
-
-		assertThat(novoPedido.getId()).isEqualTo(pedidoId);
-		assertThat(novoPedido.isAguardandoAprovacao()).isTrue();
 	}
 }

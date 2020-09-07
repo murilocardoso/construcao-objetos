@@ -6,6 +6,8 @@ import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.totvs.guild.java.construcaoobjetos.pedido.dominio.Pedido;
+
 @Entity
 public class Cliente {
 
@@ -16,8 +18,8 @@ public class Cliente {
 
 	Cliente() {}
 
-	public Cliente(UUID id, String nome, SituacaoCliente situacao) {
-		this.id = id.toString();
+	public Cliente(String nome, SituacaoCliente situacao) {
+		this.id = UUID.randomUUID().toString();
 		this.nome = nome;
 		this.situacao = situacao;
 	}
@@ -32,6 +34,10 @@ public class Cliente {
 
 	public boolean isAtivo() {
 		return situacao.equals(SituacaoCliente.ATIVO);
+	}
+
+	public Pedido criarPedido() {
+		return this.isAtivo() ? Pedido.aprovado(this.id) : Pedido.aguardandoAprovacao(this.id);
 	}
 
 	@Override
