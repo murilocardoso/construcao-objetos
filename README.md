@@ -14,6 +14,8 @@ Para ilustrar a situação, criamos um exemplo hipotético que consiste de duas 
 
 ## Uma primeira implementação
 
+*[branch com implementação](https://github.com/murilocardoso-totvs/construcao-objetos/tree/implementacao01)*
+
 
 ```
 public class ClienteService {
@@ -42,9 +44,11 @@ public class ClienteService {
   * O que há de errado com esta implementação?
 
     * A regra de criação do pedido a partir de um cliente escapou da camada de domínio e passou a fazer parte da camada de aplicação. Conforme comentado anteriormente, sempre que possível, decisões com base em regra de negócio devem ser encapsuladas na camada de domínio. 
-    * Outro ponto importante é que, sempre que possível vale a pena esconder os detalhes de implementações de um determinado objeto, veja que, além de tomar a decisão de criar um pedido aprovado ou aguardndo aprovação, quem cria o pedido deve conhecer os valores dos enums referente as situações.  
+    * Outro ponto importante é que, sempre que possível vale a pena esconder os detalhes de implementação de um determinado objeto, veja que, além de tomar a decisão de criar um pedido aprovado ou aguardndo aprovação, quem cria o pedido deve conhecer os valores dos enums referente as situações.  
   
-## A implementação que soluciona os problemas seguindo a organização do projeto
+## A implementação que soluciona os problemas seguindo a organização hexagonal do projeto
+
+*[branch com implementação](https://github.com/murilocardoso-totvs/construcao-objetos/tree/implementacao02)*
   
 ```
 public class ClienteService {
@@ -71,6 +75,7 @@ public class ClienteService {
 
   * Vantagens
     * A regra de negócio fica encapsulada no domínio, a camada de aplicação fica responsável somente por conduzir o caso de uso, que neste caso consiste em buscar o cliente e pedir a criação de um novo pedido.
+    * Os cenários de testes também se ajustam melhor, ao invés de existirem dois testes integrados para testar a camada de aplicaçação, somente um é necessário. A regra de criação do pedido a partir do cliente pode ser coberta através de simples testes de unidade. 
       
 ```
 public class Cliente {
@@ -85,7 +90,7 @@ public class Cliente {
                 : Pedido.aguardandoAprovacao(this.id);
                 
     }
-    
+       
     //...
 }    
 
