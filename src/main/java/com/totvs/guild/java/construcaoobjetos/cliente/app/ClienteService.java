@@ -4,8 +4,11 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.totvs.guild.java.construcaoobjetos.cliente.dominio.Cliente;
 import com.totvs.guild.java.construcaoobjetos.cliente.dominio.ClienteRepository;
+import com.totvs.guild.java.construcaoobjetos.pedido.dominio.Pedido;
 import com.totvs.guild.java.construcaoobjetos.pedido.dominio.PedidoRepository;
+import com.totvs.guild.java.construcaoobjetos.pedido.dominio.SituacaoPedido;
 
 @Service
 @Transactional
@@ -21,9 +24,15 @@ public class ClienteService {
 
 	public String handle(CriarPedido cmd) {
 
-		// implementar comando
+		Cliente cliente = clienteRepository.findById(cmd.getClienteId()).orElseThrow();
 
-		return "";
+		Pedido pedido = cliente.isAtivo() 
+				? new Pedido(cliente.getId(), SituacaoPedido.APROVADO)
+		        : new Pedido(cliente.getId(), SituacaoPedido.AGUARDANDO_APROVACAO);
+
+		pedidoRepository.save(pedido);
+
+		return pedido.getId();
 
 	}
 }
