@@ -113,7 +113,7 @@ public class Pedido {
 
 ```
 
-  * O pedido por sua vez disponibiliza as possíveis formas em que pode ser criado escondendo detalhes de implementações, isso reduz a dependência de outras entidades para com o pedido.
+  * O pedido disponibiliza as possíveis formas em que pode ser criado escondendo detalhes de implementação, isso reduz a dependência de outras entidades para com o pedido.
   
 
 
