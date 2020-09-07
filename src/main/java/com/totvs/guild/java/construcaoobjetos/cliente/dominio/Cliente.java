@@ -16,8 +16,8 @@ public class Cliente {
 
 	Cliente() {}
 
-	public Cliente(UUID id, String nome, SituacaoCliente situacao) {
-		this.id = id.toString();
+	public Cliente(String nome, SituacaoCliente situacao) {
+		this.id = UUID.randomUUID().toString();
 		this.nome = nome;
 		this.situacao = situacao;
 	}
